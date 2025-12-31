@@ -12,7 +12,6 @@ class Solution {
 
         Deque<int[]> dq = new ArrayDeque<>();
 
-        // starting cell cost
         dist[0][0] = grid.get(0).get(0);
         dq.offerFirst(new int[]{0, 0});
 

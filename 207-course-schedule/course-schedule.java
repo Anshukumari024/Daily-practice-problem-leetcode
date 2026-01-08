@@ -1,40 +1,32 @@
 class Solution {
-    public boolean canFinish(int n, int[][] prerequisites) {
-        List<Integer>[] adj = new List[n];
-        int[] indegree = new int[n];
-        List<Integer> ans = new ArrayList<>();
-
-        for (int[] pair : prerequisites) {
-            int course = pair[0];
-            int prerequisite = pair[1];
-            if (adj[prerequisite] == null) {
-                adj[prerequisite] = new ArrayList<>();
-            }
-            adj[prerequisite].add(course);
-            indegree[course]++;
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int n=numCourses;
+        List<List<Integer>> adj=new ArrayList<>();
+        List<Integer> ans=new ArrayList<>();
+        int[] in=new int[n];
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
         }
-
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
-            if (indegree[i] == 0) {
-                queue.offer(i);
-            }
+        for(int[] pre:prerequisites){
+            int course=pre[0];
+            int preq=pre[1];
+            in[course]++;
+            adj.get(preq).add(course);
         }
+        Queue<Integer> q=new LinkedList<>();
+        for(int i=0;i<n;i++){
+            if(in[i]==0) q.add(i);
+        }
+        while(!q.isEmpty()){
+            int curr=q.poll();
+            ans.add(curr);
 
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
-            ans.add(current);
-
-            if (adj[current] != null) {
-                for (int next : adj[current]) {
-                    indegree[next]--;
-                    if (indegree[next] == 0) {
-                        queue.offer(next);
-                    }
-                }
+            for(int neigh:adj.get(curr)){
+                in[neigh]--;
+                if(in[neigh]==0) q.add(neigh);
             }
         }
-
-        return ans.size() == n;
+        return ans.size()==n;
+        
     }
 }

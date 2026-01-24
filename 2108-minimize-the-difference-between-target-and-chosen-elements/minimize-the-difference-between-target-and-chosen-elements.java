@@ -1,24 +1,24 @@
 class Solution {
-    int ans = Integer.MAX_VALUE;
-    int target;
-    boolean[][] visited;
-
+    int ans=Integer.MAX_VALUE;
+    int[][] dp;
     public int minimizeTheDifference(int[][] mat, int target) {
-        this.target = target;
-        this.visited = new boolean[mat.length][5000];
-        dfs(mat, 0, 0);
+        dp=new int[5000][5000];
+        solve(mat,target,0,0);
         return ans;
+        
     }
-
-    private void dfs(int[][] mat, int row, int sum) {
-        if (row == mat.length) {
-            ans = Math.min(ans, Math.abs(sum - target));
+    public void solve(int[][] mat,int target,int r,int sum){
+        if(r==mat.length){
+            ans=Math.min(ans,Math.abs(sum-target));
             return;
         }
-        if (visited[row][sum]) return;
-        visited[row][sum] = true;
-        for (int val : mat[row]) {
-            dfs(mat, row + 1, sum + val);
+        if(dp[r][sum] !=0) return;
+        dp[r][sum]=1;
+        if(r>mat.length) return;
+        for(int val:mat[r]){
+            solve(mat,target,r+1,sum+val);
         }
+
+
     }
 }

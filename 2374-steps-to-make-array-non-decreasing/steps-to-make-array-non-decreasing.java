@@ -8,7 +8,7 @@ class Solution {
                 steps = Math.max(steps + 1, st.peek()[1]);
                 st.pop();
             }
-
+             
             ans = Math.max(ans, steps);
             st.push(new int[]{nums[i], steps});
         }

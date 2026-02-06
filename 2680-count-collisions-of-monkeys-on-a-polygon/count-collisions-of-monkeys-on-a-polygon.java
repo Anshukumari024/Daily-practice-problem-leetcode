@@ -1,12 +1,18 @@
 class Solution {
-        public int monkeyMove(int n) {
-        long res = 1, base = 2, mod = (long)1e9 + 7;
-        while (n > 0) {
-            if (n % 2 == 1)
-                res = res * base % mod;
-            base = base * base % mod;
-            n >>= 1;
+    int mod=1000000007;
+    public int monkeyMove(int n) {
+        long r=power(2,n);
+        long ans=(r-2+mod)%mod;
+        return (int)ans;
+        
+    }
+    public long power(int base,int exp){
+        if(exp==0) return 1;
+        long r1=power(base,exp/2);
+        long r=(r1*r1)%mod;
+        if(exp%2 == 1){
+            r=(r*base)%mod;
         }
-        return (int)((res - 2 + mod) % mod);
+        return r;
     }
 }

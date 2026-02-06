@@ -1,7 +1,7 @@
 class Solution {
     public int totalSteps(int[] nums) {
-        int ans=0;
         Stack<int[]> st=new Stack<>();
+        int ans=0;
         for(int i=nums.length-1;i>=0;i--){
             int s=0;
             while(!st.isEmpty() && nums[i]>st.peek()[0]){
@@ -10,8 +10,8 @@ class Solution {
             }
             ans=Math.max(s,ans);
             st.push(new int[]{nums[i],s});
+          
         }
         return ans;
-        
     }
 }

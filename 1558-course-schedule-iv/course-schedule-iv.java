@@ -1,46 +1,40 @@
 class Solution {
-    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for(int i = 0; i < numCourses; i++){
+    public List<Boolean> checkIfPrerequisite(int n, int[][] p, int[][] q) {
+        List<List<Integer>> graph=new ArrayList<>();
+        for(int i=0;i<n;i++){
             graph.add(new ArrayList<>());
         }
-        
-        for(int[] edge : prerequisites){
-            graph.get(edge[0]).add(edge[1]);
+        for(int i=0;i<p.length;i++){
+            int u=p[i][0];
+            int v=p[i][1];
+            graph.get(u).add(v);
         }
-        
-        List<Boolean> ans = new ArrayList<>();
-        for(int[] q : queries){
-            int start = q[0];
-            int target = q[1];
-            
-            ans.add(bfs(start, target, graph, numCourses));
-        }
-        
-        return ans;
-    }
-    
-    private boolean bfs(int start, int target, List<List<Integer>> graph, int n){
-        
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[n];
-        
-        queue.offer(start);
-        visited[start] = true;
-        
-        while(!queue.isEmpty()){
-            int node = queue.poll();
-            
-            if(node == target) return true;
-            
-            for(int neighbor : graph.get(node)){
-                if(!visited[neighbor]){
-                    visited[neighbor] = true;
-                    queue.offer(neighbor);
+        boolean flag=false;
+        List<Boolean> ans=new ArrayList<>();
+        for(int i=0;i<q.length;i++){
+            flag=false;
+            int src=q[i][0];
+            int des=q[i][1];
+            Queue<Integer> qu=new LinkedList<>();
+            qu.add(src);
+            boolean[] vi=new boolean[n];
+            vi[src]=true;
+            while(!qu.isEmpty()){
+                int rv=qu.poll();
+                if(rv==des) {
+                    flag=true;
+                    break;
                 }
+                for(int neig:graph.get(rv)){
+                    if(!vi[neig]){
+                        qu.add(neig);
+                        vi[neig]=true;
+                    }
+                }
+
             }
+            ans.add(flag);
         }
-        
-        return false;
+        return ans;
     }
 }

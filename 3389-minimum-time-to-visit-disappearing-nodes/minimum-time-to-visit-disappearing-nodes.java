@@ -26,10 +26,10 @@ class Solution {
             for (int[] nei : graph[node]) {
                 int next = nei[0];
                 int weight = nei[1];
-                long arri = time + weight;
+                long nt = time + weight;
 
-                if (!visited[next] && arri < disappear[next]) {
-                    pq.offer(new long[]{arri, next});
+                if (!visited[next] && nt < disappear[next]) {
+                    pq.offer(new long[]{nt, next});
                 }
             }
         }

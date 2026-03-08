@@ -15,9 +15,9 @@ class Solution {
         if(s.charAt(i)=='*'){
             flag|=solve(s,o+1,i+1);
             flag|=solve(s,o,i+1);
-            //if(o>0){
+            if(o>0){
                 flag|=solve(s,o-1,i+1);
-            //}
+            }
         }
         else if(s.charAt(i)=='('){
             flag|=solve(s,o+1,i+1);

@@ -1,15 +1,20 @@
 class Solution {
     public String findDifferentBinaryString(String[] nums) {
-        int n = nums.length;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            if (nums[i].charAt(i) == '0') {
-                sb.append('1');
-            } else {
-                sb.append('0');
-            }
+        HashSet<String> set=new HashSet<>();
+        for(String num:nums){
+            set.add(num);
         }
-
-        return sb.toString();
+        return solve(nums[0].length(),"",set);
+    }
+    public String solve(int n,String ans,HashSet<String> set){
+        if(ans.length()==n){
+            if(!set.contains(ans)){
+                return ans;
+            }
+            return "";
+        }
+        String l=solve(n,ans+"0",set);
+        if(!l.equals("")) return l;
+        return solve(n,ans+"1",set);
     }
 }

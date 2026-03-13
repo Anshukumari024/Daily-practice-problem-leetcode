@@ -1,38 +1,31 @@
 class Solution {
-    private boolean check(long mid, int[] workerTimes, int mH) {
-        long h = 0;
-        for (int t : workerTimes) {
-            h += (long)(Math.sqrt(2.0 * mid / t + 0.25) - 0.5);
-
-            if (h >= mH) {
-                return true;
-            }
+    public long minNumberOfSeconds(int h, int[] a) {
+        int mx = 0;
+        for (int t : a) {
+            mx = Math.max(mx, t);
         }
-
-        return h >= mH;
-    }
-
-    public long minNumberOfSeconds(int mountainHeight, int[] workerTimes) {
-        int maxTime = 0;
-        for (int t : workerTimes) 
-            maxTime = Math.max(maxTime, t);
-
         long l = 1;
-        long r = (long) maxTime * mountainHeight * (mountainHeight + 1) / 2;
-
-        long result = 0;
-
+        long r = (long) mx * h * (h + 1) / 2;
+        long ans = 0;
         while (l <= r) {
-            long mid = l + (r - l) / 2;
-
-            if (check(mid, workerTimes, mountainHeight)) {
-                result = mid;
-                r = mid - 1;
+            long m = l + (r - l) / 2;
+            if (ok(m, a, h)) {
+                ans = m;
+                r = m - 1;
             } else {
-                l = mid + 1;
+                l = m + 1;
             }
         }
 
-        return result;
+        return ans;
+    }
+    private boolean ok(long m, int[] a, int h) {
+        long s = 0;
+        for (int t : a) {
+            s += (long)(Math.sqrt(2.0 * m / t + 0.25) - 0.5);
+            if (s >= h) return true;
+        }
+
+        return s >= h;
     }
 }

@@ -20,7 +20,7 @@ class Solution {
             int node = (int) cur[0];
             double prob = cur[1];
 
-            if (node == end) return prob;
+            //if (node == end) return prob;
 
             for (double[] nei : graph.get(node)) {
                 int next = (int) nei[0];
@@ -33,7 +33,7 @@ class Solution {
             }
         }
 
-        return 0.0;
+        return maxProb[end];
         
     }
 }

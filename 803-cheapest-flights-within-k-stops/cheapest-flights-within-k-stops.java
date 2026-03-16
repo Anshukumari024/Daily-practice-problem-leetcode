@@ -1,45 +1,36 @@
 class Solution {
-    static class Pair {
-        int node;
-        int cost;
-        int stops;
-        Pair(int node, int cost, int stops) {
-            this.node = node;
-            this.cost = cost;
-            this.stops = stops;
-        }
-    }
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<List<int[]>> adj = new ArrayList<>();
-        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
-
-        for (int[] f : flights) {
-            adj.get(f[0]).add(new int[]{f[1], f[2]});
+        List<List<int[]>> graph=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            graph.add(new ArrayList<>());
         }
-        Queue<Pair> q = new LinkedList<>();
-        q.offer(new Pair(src, 0, 0));
-
-        int[] dist = new int[n];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[src] = 0;
-
-        while (!q.isEmpty()) {
-            Pair cur = q.poll();
-
-            int node = cur.node;
-            int cost = cur.cost;
-            int stops = cur.stops;
-            if (stops > k) continue;
-            for (int[] nei : adj.get(node)) {
-                int nextNode = nei[0];
-                int edgeCost = nei[1];
-
-                if (cost + edgeCost < dist[nextNode]) {
-                    dist[nextNode] = cost + edgeCost;
-                    q.offer(new Pair(nextNode, dist[nextNode], stops + 1));
+        for(int i=0;i<flights.length;i++){
+            int a=flights[i][0];
+            int b=flights[i][1];
+            int c=flights[i][2];
+            graph.get(a).add(new int[]{b,c});
+        }
+        int[] dist=new int[n];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[src]=0;
+        Queue<int[]> q=new LinkedList<>();
+        q.add(new int[]{src,0,0});
+        while(!q.isEmpty()){
+            int[] rv=q.poll();
+            int node=rv[0];
+            int cost=rv[1];
+            int stops=rv[2];
+            if(stops>k) continue;
+            for(int[] neig:graph.get(node)){
+                int no=neig[0];
+                int co=neig[1];
+                if(co+cost<dist[no]){
+                    dist[no]=cost+co;
+                    q.add(new int[]{no,co+cost,stops+1});
                 }
             }
         }
-        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
+        if(dist[dst]==Integer.MAX_VALUE) return -1;
+        return dist[dst];
     }
 }

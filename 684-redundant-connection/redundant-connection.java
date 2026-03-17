@@ -1,33 +1,32 @@
 class Solution {
-    int[] parent;
-
+    static int[] parent;
     public int[] findRedundantConnection(int[][] edges) {
-        int n = edges.length;
-        parent = new int[n + 1];
-
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
+        int[] ans=new int[2];
+        int n=edges.length;
+        parent=new int[n+1];
+        for(int i=0;i<=n;i++){
+            parent[i]=i;
         }
-          int[] ans = new int[2];
-        for (int[] edge : edges) {
-            int u = edge[0];
-            int v = edge[1];
-
-            if (find(u) == find(v)) {
-                ans = edge;   
-            } else {
-                union(u, v);
+        for(int[] edge:edges){
+            int x=edge[0];
+            int y=edge[1];
+            if(find(x)==find(y)){
+                ans=edge;
+            }
+            else{
+                union(x,y);
             }
         }
         return ans;
+        
     }
-
-    int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]); 
-        return parent[x];
+     public static int find(int x){
+            if(parent[x]!=x){
+                parent[x]=find(parent[x]);
+            }
+            return parent[x];
     }
-    void union(int x, int y) {
-        parent[find(x)] = find(y);
+    public static void union(int x,int y){
+            parent[find(x)]=find(y);
     }
 }
